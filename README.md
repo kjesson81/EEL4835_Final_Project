@@ -2,7 +2,8 @@
 The final project for programming desgin (EEL4835) is to create an executable python file that will list the synonyms of an input word by accessing the database at thesaurus.com
 
 **Requirements:**
-  1.) The synonym database is at https://www.thesaurus.com/. In particular, the website  https://www.thesaurus.com/browse/[word] gives  you the webpage content  that shows all synonyms of [word]. 
+ 
+ 1.) The synonym database is at https://www.thesaurus.com/. In particular, the website  https://www.thesaurus.com/browse/[word] gives  you the webpage content  that shows all synonyms of [word]. 
   
   2.) In  order  to  reduce  network  traffic  and  improve  efficiency,  once  your  code  obtains  all  synonyms of a given word, it should store them at local storage for the next use. In other words,  your  code,  upon  start,  should  first  check  whether  its  local  storage  has  stored  all  synonyms of the given word. If yes, just return the locally stored information; otherwise, get the synonyms from thesaurus then store them. Carefully think about what kind of data you should store and how to store such data. 
   
