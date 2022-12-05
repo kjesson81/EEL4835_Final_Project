@@ -1,5 +1,7 @@
 import requests
 import json
+import time
+import schedule
 from bs4 import BeautifulSoup
 from os.path import exists
 
@@ -9,20 +11,20 @@ def get_synonyms_from_web(word):
     synonyms = []
     html_text = requests.get(f'https://www.thesaurus.com/browse/{word}').text
     soup = BeautifulSoup(html_text, 'lxml')
-    synonyms_from_web = soup.find_all('a', class_='css-1kg1yv8 eh475bn0') + soup.find_all('a', class_='css-1gyuw4i eh475bn0') + soup.find_all('a', class_='css-1n6g4vv eh475bn0')
+    div = soup.find("div", attrs={"data-testid": "word-grid-container"})
+    synonyms_from_web = soup.find_all('a', class_="css-ixatld e15rdun50")
 
-    print("The synonyms for " + word + " are:")
-    for synonym in synonyms_from_web:
-        print(synonym.text)
-        synonyms.append(synonym.text)
-    print('\n')
-    synonyms_result = [word.strip() for word in synonyms]
+    for li in div.find_all("li"):
+        link = li.find("a")
+        if link:
+            text = link.text.strip()
+            synonyms.append(text)
+            print(text)
 
-    if not synonyms_result:
-        synonyms_result = [word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
-        print(synonyms_result[0])
-    return synonyms_result
-
+    if not synonyms:
+        synonyms = [word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
+        print(synonyms[0])
+    return synonyms
 
 def synonyms(word):
 
