@@ -1,16 +1,25 @@
 import requests
 import json
-import time
-import schedule
 from bs4 import BeautifulSoup
 from os.path import exists
 
 
-def web_scraper(word):
+def get_synonyms_from_web(word):
+    synonyms = []
     html_text = requests.get(f'https://www.thesaurus.com/browse/{word}').text
     soup = BeautifulSoup(html_text, 'lxml')
-    synonyms = soup.find_all('a', class_='css-1kg1yv8 eh475bn0') + soup.find_all('a', class_='css-1gyuw4i eh475bn0') + soup.find_all('a', class_='css-1n6g4vv eh475bn0')
-    return synonyms
+    synonyms_from_web = soup.find_all('a', class_='css-1kg1yv8 eh475bn0') + soup.find_all('a', class_='css-1gyuw4i eh475bn0') + soup.find_all('a', class_='css-1n6g4vv eh475bn0')
+   
+    for synonym in synonyms_from_web:
+        print(synonym.text)
+        synonyms.append(synonym.text)
+    synonyms_result = [word.strip() for word in synonyms]
+
+    if not synonyms_result:
+        synonyms_result = [ word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
+        print(synonyms_result[0])
+    
+    return synonyms_result
 
 
 # create empty dictionary
@@ -35,17 +44,7 @@ while cont:
                 print(existing_word)
 
         else:
-            synonyms_list = web_scraper(user_input)
-
-            print("The synonyms for " + user_input + " are:")
-            for synonym in synonyms_list:
-                print(synonym.text)
-                input_synonyms.append(synonym.text)
-
-            # formatting the data in dictionary format and removing additional spaces
-            synonyms_dict[user_input] = [word.strip() for word in input_synonyms]
-
-            input_synonyms = []     # clears the synonyms to re-run code
+            synonyms_dict[user_input] = get_synonyms_from_web(user_input)
 
             # writes data to the JSON file
             with open("synonymsDB.json", "w") as file:
@@ -62,10 +61,3 @@ while cont:
         empty_dict = {}
         json.dump(empty_dict, file)
         file.close()
-
-# with open("synonymsDB.json", "r") as data:
-#     synonym_history = json.load(data)
-# 
-# for word in synonym_history.keys():
-#     schedule.every().day.at("23:59").do(web_scraper(word))
-#     
