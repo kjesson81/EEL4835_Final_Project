@@ -9,24 +9,20 @@ def get_synonyms_from_web(word):
     html_text = requests.get(f'https://www.thesaurus.com/browse/{word}').text
     soup = BeautifulSoup(html_text, 'lxml')
     synonyms_from_web = soup.find_all('a', class_='css-1kg1yv8 eh475bn0') + soup.find_all('a', class_='css-1gyuw4i eh475bn0') + soup.find_all('a', class_='css-1n6g4vv eh475bn0')
-   
+
     for synonym in synonyms_from_web:
         print(synonym.text)
         synonyms.append(synonym.text)
     synonyms_result = [word.strip() for word in synonyms]
 
     if not synonyms_result:
-        synonyms_result = [ word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
+        synonyms_result = [word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
         print(synonyms_result[0])
-    
     return synonyms_result
 
 
-# create empty dictionary
-synonyms_dict = {}
-input_synonyms = []
 cont = True
-
+synonyms_dict = {}
 while cont:
 
     if exists("synonymsDB.json"):
@@ -44,7 +40,8 @@ while cont:
                 print(existing_word)
 
         else:
-            synonyms_dict[user_input] = get_synonyms_from_web(user_input)
+
+            synonyms_dict.setdefault(user_input, get_synonyms_from_web(user_input))
 
             # writes data to the JSON file
             with open("synonymsDB.json", "w") as file:
@@ -58,6 +55,5 @@ while cont:
 
     else:
         file = open("synonymsDB.json", "w")
-        empty_dict = {}
-        json.dump(empty_dict, file)
+        json.dump("{}", file)
         file.close()
