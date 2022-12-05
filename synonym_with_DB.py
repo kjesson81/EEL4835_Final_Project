@@ -1,4 +1,7 @@
+#!/usr/bin/python3
 import requests
+import schedule
+import time
 import json
 import time
 import schedule
@@ -26,21 +29,21 @@ def get_synonyms_from_web(word):
         print(synonyms[0])
     return synonyms
 
-def synonyms(word):
 
+def synonyms(word):
     if exists("synonymsDB.json"):
         # opens historical database for synonyms
         with open("synonymsDB.json", "r") as data:
-            synonym_history = json.load(data)
+            synonyms_dict = json.load(data)
 
         # obtains user input
         user_input = word.lower().strip()
 
         # check to see if input word is in historical dictionary
-        if user_input in synonym_history.keys():
+        if user_input in synonyms_dict.keys():
             existing_words = []
             print(user_input + " has already been entered. The synonyms are:")
-            for existing_word in synonym_history.pop(user_input):
+            for existing_word in synonyms_dict.setdefault(user_input):
                 print(existing_word)
                 existing_words.append(existing_word)
             synonyms_dict.setdefault(user_input, existing_words)
@@ -54,7 +57,7 @@ def synonyms(word):
 
     else:
         f = open("synonymsDB.json", "w")
-        json.dump("{}", f)
+        json.dump({}, f)
         f.close()
 
     return synonyms_dict
