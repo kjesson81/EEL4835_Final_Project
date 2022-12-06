@@ -25,7 +25,7 @@ def get_synonyms_from_web(word):
                 text = link.text.strip()            # only extract the text from html code
                 synonyms.append(text)               # add text to synonym list
 
-    # if the word returns and empty array, an Attribure Error will be thrown. Catch and let user know
+    # if the word returns and empty array, let user know
     except AttributeError:
         synonyms = [word + " was not found. Either it is not in thesaurus.com, or the word does not exist"]
         print(synonyms[0])
@@ -64,7 +64,9 @@ def synonyms(word):
         f = open("synonymsDB.json", "w")
         json.dump({}, f)
         f.close()
-
+        synonyms_dict = {}
+        synonyms(word)
+    
     return synonyms_dict
 
 
@@ -129,3 +131,4 @@ if __name__ == '__main__':
 
         if i == 2:
             x = False
+
