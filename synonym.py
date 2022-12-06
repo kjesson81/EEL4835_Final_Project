@@ -2,6 +2,7 @@
 import requests
 import json
 import time
+import sys
 from bs4 import BeautifulSoup
 from os.path import exists
 
@@ -49,6 +50,7 @@ def synonyms(word):
         else:
             # creates/updates key value pair and print synonyms.
             synonyms_dict.setdefault(user_input, get_synonyms_from_web(user_input))
+            print("\nThe synonyms for " + user_input + " are:")
             for value in synonyms_dict.setdefault(user_input):
                 print(value)
 
@@ -65,14 +67,13 @@ def synonyms(word):
     return synonyms_dict
 
 
-run_code = input("Enter '1' if you want to type in words, and enter '2' if you want to read words from a file.\n")
+#run_code = input("Enter '1' if you want to type in words, and enter '2' if you want to read words from a file.\n")
 
-if run_code == '1':
+if len(sys.argv) == 1:
     user_input = input("Please enter a word to find it's synonyms!\n")
     synonyms(user_input)
-elif run_code == '2':
-
-    filename = input("Please enter the name of the file with words in it.\n")
+elif len(sys.argv) > 1:
+    filename = sys.argv[1]
     if exists(filename):
         # reads content of file
         with open(filename, "r") as input_file:
@@ -88,9 +89,9 @@ elif run_code == '2':
         json.dump(write_data[length - 1], output_file, indent=4)
         output_file.close()
         print("Synonyms have been written to a file called 'output.json'")
-        
-# NOTE: the words from the file are also updated in the synonymsDB.json file. 
-# output.json is a separate file for only words in the file. 
+
+# NOTE: the words from the file are also updated in the synonymsDB.json file.
+# output.json is a separate file for only words in the file.
 else:
     print("You entered an invalid input. Goodbye.")
 
@@ -112,8 +113,8 @@ if __name__ == '__main__':
             existing_synonyms = synonyms_dict[existing_word]
             update = get_synonyms_from_web(existing_word)
             print("Checking for update...")
-            
-            # checks to see if there was change in the amount of synonyms in the website and if so, re-run script 
+
+            # checks to see if there was change in the amount of synonyms in the website and if so, re-run script
             if len(update) != len(existing_synonyms):
                 update_flag = True
                 synonyms_dict.setdefault(existing_word, update)
@@ -121,11 +122,9 @@ if __name__ == '__main__':
                     json.dump(synonyms_dict, file, indent=4)
             else:
                 update_flag = False
-            
+
             if update_flag:
                 print("Updated synonyms for " + existing_word)
-            else:
-                print("no update needed for " + existing_word)
 
         if i == 2:
             x = False
