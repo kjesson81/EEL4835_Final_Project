@@ -108,7 +108,7 @@ if __name__ == '__main__':
     while x:
         with open("synonymsDB.json", "r") as data:
             synonyms_dict = json.load(data)
-        time_wait = 3
+        time_wait = 3              # this is set to three seconds for testing purposes to show the code is updating. realisitically it would be set to once a day
         time.sleep(time_wait)
         i += 1
 
@@ -129,5 +129,5 @@ if __name__ == '__main__':
             if update_flag:
                 print("Updated synonyms for " + existing_word)
 
-        if i == 2:
+        if i == 2:          # this stops the code after 2 updates for testing purpose. realistically, the code would update until interrupted
             x = False
