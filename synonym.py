@@ -67,8 +67,8 @@ def synonyms(word):
     return synonyms_dict
 
 
-#run_code = input("Enter '1' if you want to type in words, and enter '2' if you want to read words from a file.\n")
-
+# sys.argv allows for the user to input another argument in a terminal command. If there is no addition argument, the code will ask user for input
+# if there is an additional argument, then the code will treat the argument as a file and read each line as a word and run synonms.py for each word
 if len(sys.argv) == 1:
     user_input = input("Please enter a word to find it's synonyms!\n")
     synonyms(user_input)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
             update = get_synonyms_from_web(existing_word)
             print("Checking for update...")
 
-            # checks to see if there was change in the amount of synonyms in the website and if so, re-run script
+            # checks to see if there was change in the number of synonyms in the website and if so, re-run script to update the synonyms
             if len(update) != len(existing_synonyms):
                 update_flag = True
                 synonyms_dict.setdefault(existing_word, update)
