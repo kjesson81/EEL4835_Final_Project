@@ -1,6 +1,9 @@
 # EEL4835_Final_Project
 The final project for programming desgin (EEL4835) is to create an executable python file that will list the synonyms of an input word by accessing the database at thesaurus.com
 
+synonyms.py is the main file that will run everything as intended. it is not needed to download synonymsDB.json as it will be created if it does not exist, but it is here for completion sake
+
+
 **Requirements:**
  
  1.) The synonym database is at https://www.thesaurus.com/. In particular, the website  https://www.thesaurus.com/browse/[word] gives  you the webpage content  that shows all synonyms of [word]. 
