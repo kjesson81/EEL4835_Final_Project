@@ -3,6 +3,8 @@ The final project for programming desgin (EEL4835) is to create an executable py
 
 synonyms.py is the main file that will run everything as intended. it is not needed to download synonymsDB.json as it will be created if it does not exist, but it is here for completion sake
 
+synonyms_from_file.sh is a linux bash file that will run synonyms.py either using words in a file or a user input. Simply type inthe name of the file to read words from or press enter to input a single word. 
+NOTE: the files passed to syonyms.py must consist of only one word on a new line. 
 
 **Requirements:**
  
